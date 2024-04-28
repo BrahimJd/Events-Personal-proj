@@ -1,10 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const bodyParser = require("body-parser");
-const newsController = require("../controllers/newsController");
-const authMiddleware = require("../middlewares/authMiddleware");
+const newsController = require("../Controllers/newsController");
+const authMiddleware = require("../Middlewares/authMiddleware");
 
-//Routes
 // Route to create a news article
 router.post("/", authMiddleware, newsController.CreateNewsArticle);
 // Route to get all news articles by ID
