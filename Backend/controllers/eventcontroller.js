@@ -1,4 +1,4 @@
-const Event = require("../Modules/Events");
+const Event = require("../Modules/Events").default;
 
 // Controller to create an event
 const CreateEvent = async (req, res) => {
@@ -72,4 +72,10 @@ const DeleteEvent = async (req, res) => {
   }
 };
 
-module.exports = { CreateEvent, GetEvent, GetAllEvents, UpdateEvent, DeleteEvent };
+module.exports = {
+  CreateEvent,
+  GetEvent,
+  GetAllEvents,
+  UpdateEvent,
+  DeleteEvent,
+};

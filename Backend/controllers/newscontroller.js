@@ -1,4 +1,4 @@
-const NewsArticle = require("../Modules/NewsArticle");
+const NewsArticle = require("../Modules/NewsArticle").default;
 
 // Controller to create a news article
 const CreateNewsArticle = async (req, res) => {

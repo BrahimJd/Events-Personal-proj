@@ -1,3 +1,1 @@
-const sponsorshipreq = require('../Modules/SponsorshipRequest');
-
-
+const sponsorshipreq = require("../Modules/SponsorshipRequest").default;
