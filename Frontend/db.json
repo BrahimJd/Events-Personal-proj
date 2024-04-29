@@ -1,0 +1,73 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John Smith",
+      "username": "johnny",
+      "email": "john.smith@example.com",
+      "phone": "123-456-7890",
+      "website": "example.com"
+    },
+    {
+      "id": "2",
+      "name": "Alice Johnson",
+      "username": "alice22",
+      "email": "alice.johnson@example.com",
+      "phone": "987-654-3210",
+      "website": "alicejohnson.com",
+      "password": "Zarzis123!"
+    },
+    {
+      "id": "3",
+      "name": "Emily Brown",
+      "username": "emilyb",
+      "email": "emily.brown@example.com",
+      "phone": "555-555-5555",
+      "website": "emilybrown.net"
+    },
+    {
+      "id": "4",
+      "name": "Michael Davis",
+      "username": "mdavis",
+      "email": "michael.davis@example.com",
+      "phone": "111-222-3333",
+      "website": "michaeldavis.org"
+    },
+    {
+      "id": "5",
+      "name": "Sophia Martinez",
+      "username": "sophiam",
+      "email": "sophia.martinez@example.com",
+      "phone": "444-555-6666",
+      "website": "sophiamartinez.com"
+    },
+    {
+      "id": "6",
+      "name": "Daniel Wilson",
+      "username": "dwilson",
+      "email": "daniel.wilson@example.com",
+      "phone": "777-888-9999",
+      "website": "danielwilson.net"
+    },
+    {
+      "id": "7",
+      "name": "Olivia Taylor",
+      "username": "oliviat",
+      "email": "olivia.taylor@example.com",
+      "phone": "222-333-4444",
+      "website": "oliviataylor.org"
+    },
+    {
+      "id": "9f22",
+      "name": "sdrftgyhujik",
+      "email": "hjkdhrfdgf@gmail.com",
+      "phone": "78456216"
+    },
+    {
+      "id": "9d92",
+      "name": "mohamed amine bouguiddima",
+      "email": "ftgyh@kjh.gju",
+      "phone": "52978971"
+    }
+  ]
+}
