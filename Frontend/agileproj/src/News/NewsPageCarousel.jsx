@@ -4,7 +4,7 @@ const NewsPageCarousel = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <Carousel
-        className="rounded-xl w-3/4 lg:w-1/2 h-3/4 lg:h-1/2"
+        className="rounded-xl w-full h-full"
         navigation={({ setActiveIndex, activeIndex, length }) => (
           <div className="absolute bottom-4 left-2/4 transform -translate-x-2/4 z-50 flex gap-2">
             {new Array(length).fill("").map((_, i) => (
