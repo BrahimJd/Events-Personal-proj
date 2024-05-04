@@ -10,7 +10,7 @@ const {
   authorizationPage,
   authsponsorreq,
 } = require("./MiddleWares/authorizationMiddleware");
-const authMiddleware = require("./MiddleWares/authmiddleware");
+const authMiddleware = require("./Middlewares/authentificationMiddleware");
 
 // Template Engine
 app.use(expressLayout);

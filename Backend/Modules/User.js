@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["Manager", "Member", "Sponsor"],
+    default: "Member",
     required: true,
   },
 });
@@ -33,6 +34,12 @@ userSchema.pre("save", function (next) {
   }
   next();
 });
+
+userSchema.methods.isValidPassword = async function (password) {
+  const user = this;
+  const compare = await bcrypt.compare(password, user.password);
+  return compare;
+};
 
 const User = mongoose.model("User", userSchema);
 

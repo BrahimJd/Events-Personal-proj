@@ -1,5 +1,6 @@
 const User = require("../modules/User");
 
+
 // Controller to get User By ID
 const GetUser = async (req, res) => {
   try {
