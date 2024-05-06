@@ -1,4 +1,4 @@
-const User = require("../modules/User");
+const User = require("../Modules/User");
 
 
 // Controller to get User By ID

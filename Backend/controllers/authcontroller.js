@@ -1,3 +1,11 @@
+const { authSchema } = require("../Helpers/validation");
+const User = require("../Modules/User");
+const bcrypt = require("bcrypt");
+const {
+  signAccessToken,
+  SignRefreshToken,
+  VerifyRefreshToken,
+} = require("../Helpers/jwt_helper");
 // Register a new user
 const register = async (req, res) => {
   try {
@@ -39,7 +47,7 @@ const login = async (req, res) => {
     }
 
     const accesstoken = await signAccessToken(user.id);
-    const refreshToken = await SignRefreshToken(user.id);*
+    const refreshToken = await SignRefreshToken(user.id);
     res.status(200).json({ accesstoken, refreshToken });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -57,15 +65,13 @@ const login = async (req, res) => {
       const { userId } = await VerifyRefreshToken(refreshToken);
       const accessToken = await signAccessToken(userId);
       const refToken = await SignRefreshToken(userId);
-      res.status(200).json({ accessToken: accessToken, refreshToken: refToken });
-    }
-    catch (error) {
+      res
+        .status(200)
+        .json({ accessToken: accessToken, refreshToken: refToken });
+    } catch (error) {
       next(error);
     }
-  }
-
-
-
+  };
 };
 
 module.exports = { register, login, refreshToken };
