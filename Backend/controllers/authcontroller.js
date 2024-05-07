@@ -1,11 +1,12 @@
 const { authSchema } = require("../Helpers/validation");
-const User = require("../Modules/User");
-const bcrypt = require("bcrypt");
 const {
   signAccessToken,
   SignRefreshToken,
   VerifyRefreshToken,
-} = require("../Helpers/jwt_helper");
+} = require("../Helpers/JwtHelper");
+const User = require("../Modules/User");
+const bcrypt = require("bcrypt");
+
 // Register a new user
 const register = async (req, res) => {
   try {
@@ -54,24 +55,21 @@ const login = async (req, res) => {
   }
 
   // Refresh token
-
-  const refreshToken = async (req, res, next) => {
-    try {
-      const { refreshToken } = req.body;
-      if (!refreshToken) {
-        throw createError.BadRequest();
-      }
-      await VerifyRefreshToken(refreshToken);
-      const { userId } = await VerifyRefreshToken(refreshToken);
-      const accessToken = await signAccessToken(userId);
-      const refToken = await SignRefreshToken(userId);
-      res
-        .status(200)
-        .json({ accessToken: accessToken, refreshToken: refToken });
-    } catch (error) {
-      next(error);
+};
+const refreshToken = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      throw createError.BadRequest();
     }
-  };
+    await VerifyRefreshToken(refreshToken);
+    const { userId } = await VerifyRefreshToken(refreshToken);
+    const accessToken = await signAccessToken(userId);
+    const refToken = await SignRefreshToken(userId);
+    res.status(200).json({ accessToken: accessToken, refreshToken: refToken });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { register, login, refreshToken };

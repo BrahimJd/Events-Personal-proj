@@ -3,7 +3,7 @@ const router = express.Router();
 const Role = require("../Modules/Role");
 
 // Create a new role
-router.post("/", async (req, res) => {
+router.post("/Roles", async (req, res) => {
   try {
     // Extract the role data from the request body
     const { name, description, permissions } = req.body;
