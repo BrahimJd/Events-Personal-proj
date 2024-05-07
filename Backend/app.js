@@ -5,6 +5,7 @@ const Mongoose = require("mongoose");
 const expressLayout = require("express-ejs-layouts");
 const app = Express();
 const port = process.env.PORT || 3000;
+const cors = require("cors");
 const authRoutes = require("./Routes/authRoutes");
 const {
   authorizationPage,
@@ -12,6 +13,8 @@ const {
 } = require("./MiddleWares/authorizationMiddleware");
 const authMiddleware = require("./Middlewares/authentificationMiddleware");
 
+//Enable CORS
+app.use(cors());
 // Template Engine
 app.use(expressLayout);
 app.set("layout", "./layouts/layout");

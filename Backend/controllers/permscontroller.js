@@ -33,9 +33,27 @@ const deletePermission = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+//Update permission
+const updatePermission = async (req, res) => {
+  try {
+    const { permission } = req.body;
+    const updatedPermission = await Permission.findByIdAndUpdate(
+      req.params.id,
+      { permission },
+      { new: true }
+    );
+    if (!updatedPermission) {
+      return res.status(404).json({ message: "Permission not found" });
+    }
+    res.status(200).json(updatedPermission);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
   addPermission,
   getPermission,
   deletePermission,
+  updatePermission,
 };

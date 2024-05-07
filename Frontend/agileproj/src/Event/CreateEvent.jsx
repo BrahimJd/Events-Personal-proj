@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const CreateEvent = () => {
   return (
     <div className="min-h-screen flex justify-center items-center bg-white">
@@ -37,9 +38,12 @@ const CreateEvent = () => {
             </p>
 
             <div className="flex flex-col gap-2.5 sm:flex-row sm:justify-center lg:justify-start">
-              <button className="px-6 py-3 text-sm font-semibold text-white bg-indigo-500 rounded-lg shadow-lg hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 active:bg-indigo-700">
-                Get started
-              </button>
+              <Link
+                to="/start-event"
+                className="px-6 py-3 text-sm font-semibold text-white bg-indigo-500 rounded-lg shadow-lg hover:bg-indigo-600 focus:outline-none focus:ring focus:ring-indigo-300 active:bg-indigo-700"
+              >
+                Start Event
+              </Link>
             </div>
           </div>
 
