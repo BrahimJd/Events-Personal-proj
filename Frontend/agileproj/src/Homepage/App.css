@@ -1,0 +1,169 @@
+.App {
+  background-color: #dceff5;
+  text-align: center;
+}
+
+.events {
+  background-color: transparent;
+  padding: 20px;
+}
+
+.event {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 20px;
+  display: inline-block;
+  width: calc(33.33% - 20px);
+  vertical-align: top;
+  background-color: #f9f9f9;
+}
+
+.event h3 {
+  margin-top: 0;
+}
+
+.event p {
+  margin-bottom: 10px;
+}
+
+.event img {
+  max-width: 100%;
+  border-radius: 5px;
+}
+.welcome-section {
+  background-image: url("/image.jpg");
+  background-size: cover;
+  background-position: center;
+  color: rgb(7, 7, 7);
+  padding: 250px 50px;
+  text-align: center;
+}
+.footer {
+  background-image: url("footer.jpg");
+  color: #000000;
+  padding: 20px;
+  text-align: center;
+}
+
+.circle-card {
+  width: 200px;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Navbar Styles */
+.navbar {
+  background-color: #b3dee4;
+  color: #0e0be6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.navbar a {
+  color: #0e12e9;
+  padding: 10px;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.navbar a:hover {
+  color: #0bb3dd;
+}
+
+.navbar-logo {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+}
+
+.navbar-menu li {
+  padding-left: 20px;
+}
+.navbar-search {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-search input {
+  padding: 8px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.navbar-search button {
+  padding: 8px 10px;
+  background-color: #1606f0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.navbar-search button:hover {
+  background-color: #0bc8f7;
+}
+.navbar.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+html {
+  scroll-behavior: smooth;
+}
+.circle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #caeaf1;
+  border-radius: 50%;
+  width: 250px;
+  height: 250px;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  margin: 10px;
+}
+.circle-card img {
+  width: 200%;
+  height: 200%;
+  object-fit: cover;
+}
+.Card {
+  display: flex;
+  justify-content: center;
+}
+.circle-card::after {
+  content: attr(data-country);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.circle-card::after {
+  opacity: 1;
+}

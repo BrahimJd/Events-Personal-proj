@@ -1,4 +1,4 @@
-const authorizationPage = (req, res, next) => {
+const authManager = (req, res, next) => {
   const { role } = req.user;
   if (role === "Manager") {
     next();
@@ -7,13 +7,12 @@ const authorizationPage = (req, res, next) => {
   }
 };
 
-const authsponsorreq = (req, res, next) => {
+const authSponsor = (req, res, next) => {
   const { role } = req.user;
-  if (role === "Sponsor") {
+  if (role === "Sponsor" || role === "Manager") {
     next();
   } else {
     res.status(403).json({ message: "Forbidden" });
   }
 };
-
-module.exports = { authorizationPage, authsponsorreq };
+module.exports = { authManager, authSponsor };

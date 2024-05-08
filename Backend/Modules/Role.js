@@ -9,9 +9,6 @@ const roleSchema = new mongoose.Schema({
   description: {
     type: String,
   },
-  permissions: {
-    type: [String],
-  },
 });
 
 const Role = mongoose.model("Role", roleSchema);

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./login.css"; // Make sure to import your CSS file if you have any styles specific to this component
 
 function LoginForm() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -17,10 +18,9 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+      const response = await axios.post("http://localhost:3000/auth/login", {
+        email,
+        password,
       });
       if (response.status !== 200) {
         alert("An error occurred. Please try again.");
@@ -40,10 +40,10 @@ function LoginForm() {
         <input
           type="text"
           className="form-control"
-          name="username"
+          name="email"
           placeholder="Email Address"
-          value={username}
-          onChange={handleUsernameChange}
+          value={email}
+          onChange={handleEmailChange}
           required=""
           autoFocus=""
         />

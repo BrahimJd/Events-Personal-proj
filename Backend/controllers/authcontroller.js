@@ -1,4 +1,4 @@
-const { authSchema } = require("../Helpers/validation");
+const { authSchema, loginSchema } = require("../Helpers/validation");
 const {
   signAccessToken,
   SignRefreshToken,
@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 // Register a new user
 const register = async (req, res) => {
   try {
+    console.log("registering user...,", req.body);
     const resultt = await authSchema.validateAsync(req.body);
     const existingUser = await User.findOne({ email: resultt.email });
     if (existingUser) {
@@ -24,6 +25,7 @@ const register = async (req, res) => {
 
     const accessToken = await signAccessToken(user.id);
     const refreshToken = await SignRefreshToken(user.id);
+    console.log("User registered successfully:", result);
     res.status(201).json({ accessToken, refreshToken });
   } catch (error) {
     if (error.isJoi === true) {
@@ -36,7 +38,8 @@ const register = async (req, res) => {
 // Login user
 const login = async (req, res) => {
   try {
-    const result = await authSchema.validateAsync(req.body);
+    console.log("logging in user...,", req.body);
+    const result = await loginSchema.validateAsync(req.body);
     const user = await User.findOne({ email: result.email });
     if (!user) {
       return res.status(400).json({ message: "User not found" });

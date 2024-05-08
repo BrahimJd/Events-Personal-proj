@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./register.css";
 
 function RegisterForm() {
@@ -31,10 +32,10 @@ function RegisterForm() {
       return;
     }
     try {
-      const response = await fetch("http://localhost:3000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ fullname, email, password }),
+      const response = await axios.post("http://localhost:3000/auth/register", {
+        username: fullname,
+        email,
+        password,
       });
       if (response.status !== 200) {
         alert("An error occurred. Please try again.");

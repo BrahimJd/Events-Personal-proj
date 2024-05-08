@@ -7,10 +7,6 @@ const app = Express();
 const port = process.env.PORT || 3000;
 const cors = require("cors");
 const authRoutes = require("./Routes/authRoutes");
-const {
-  authorizationPage,
-  authsponsorreq,
-} = require("./MiddleWares/authorizationMiddleware");
 const authMiddleware = require("./Middlewares/authentificationMiddleware");
 
 //Enable CORS
@@ -35,21 +31,13 @@ db.once("open", function () {
 
 // Routes
 // authentification
-app.use("/api/auth", authRoutes);
-// protected route requiring manager role
-app.get("/manager", authMiddleware, authorizationPage, (req, res) => {
-  res.send("Welcome Manager");
-});
-// protected route requiring sponsor role
-app.get("/sponsor", authMiddleware, authsponsorreq, (req, res) => {
-  res.send("Welcome Sponsor");
-});
+app.use("/auth", authRoutes);
 
-app.use("/events", require("./Routes/eventRoutes"));
+//ap.use("/events", require("./Routes/eventRoutes"));
 
-app.use("/news", require("./Routes/newsRoutes"));
+//app.use("/news", require("./Routes/newsRoutes"));
 
-app.use("/users", require("./Routes/userRoutes"));
+//app.use("/users", require("./Routes/userRoutes"));
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
