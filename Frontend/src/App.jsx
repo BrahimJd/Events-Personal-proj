@@ -8,6 +8,7 @@ import Login from "./Login/login";
 import Homepage from "./Homepage/Homepage";
 import Dashboard from "./Dashboard/Dashboard";
 import View from "./Dashboard/View";
+import Navbar from "./Homepage/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
@@ -17,14 +18,31 @@ function App() {
           path="/news"
           element={
             <div>
+              <Navbar />
               <NewsPageCarousel />
               <NewsPage />
             </div>
           }
         />
-        <Route path="/create-event" element={<CreateEvent />} />
+        <Route
+          path="/create-event"
+          element={
+            <div>
+              <Navbar />
+              <CreateEvent />
+            </div>
+          }
+        />
         <Route path="/" element={<Homepage />} />
-        <Route path="/start-event" element={<StartEvent />} />
+        <Route
+          path="/start-event"
+          element={
+            <>
+              <Navbar />
+              <StartEvent />
+            </>
+          }
+        />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />

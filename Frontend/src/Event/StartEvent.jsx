@@ -1,4 +1,47 @@
-const StartEvent = () => {
+import axios from "axios";
+import { useState } from "react"; // Import useState hook
+
+function CreateEvent() {
+  const [event, setEvent] = useState({
+    title: "",
+    description: "",
+    date: "",
+    time: "",
+    location: "",
+    category: "",
+    image: "",
+  });
+
+  const handleChange = (e) => {
+    setEvent({ ...event, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (
+      event.title === "" ||
+      event.description === "" ||
+      event.date === "" ||
+      event.time === "" ||
+      event.location === "" ||
+      event.category === "" ||
+      event.image === ""
+    ) {
+      alert("Please fill all the fields");
+      return;
+    }
+    try {
+      const response = await axios.post("http://localhost:3000/event/create");
+      if (response.status === 201) {
+        alert("Event created successfully");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { title, description, date, time, location, category, image } = event;
+
   return (
     <div className="h-screen bg-gray-400 dark:bg-gray-900">
       <div className="min-h-screen bg-gray-400 dark:bg-gray-900 flex justify-center items-center">
@@ -29,6 +72,8 @@ const StartEvent = () => {
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="title"
                     type="text"
+                    name="title"
+                    value={title}
                     placeholder="Enter title"
                   />
                 </div>
@@ -74,19 +119,6 @@ const StartEvent = () => {
                     type="date"
                   />
                 </div>
-                <div className="md:ml-2">
-                  <label
-                    className="block mb-2 text-sm font-bold text-gray-700 dark:text-white"
-                    htmlFor="time"
-                  >
-                    Time
-                  </label>
-                  <input
-                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="time"
-                    type="time"
-                  />
-                </div>
               </div>
               <div className="mb-6">
                 <label
@@ -109,7 +141,8 @@ const StartEvent = () => {
               <div className="mb-6 text-center">
                 <button
                   className="w-full px-4 py-2 font-bold text-white bg-indigo-500 rounded hover:bg-indigo-700 focus:outline-none focus:shadow-outline"
-                  type="button"
+                  type="submit"
+                  onClick={handleCreateEvent}
                 >
                   Create Event
                 </button>

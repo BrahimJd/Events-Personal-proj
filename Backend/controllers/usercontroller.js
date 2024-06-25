@@ -26,10 +26,10 @@ const GetAllUsers = async (req, res) => {
 // Controller to update a User by ID
 const UpdateUser = async (req, res) => {
   try {
-    const { username, email } = req.body;
+    const { firstName, lastName, email, role } = req.body;
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { username, email },
+      { firstName, lastName, email, role },
       { new: true }
     );
     if (!user) {

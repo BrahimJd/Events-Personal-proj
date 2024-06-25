@@ -1,7 +1,5 @@
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
-const { name } = require("ejs");
-const e = require("express");
 
 module.exports = {
   signAccessToken: (userId) => {
@@ -13,7 +11,6 @@ module.exports = {
       const options = {
         expiresIn: "12h",
         issuer: "localhost",
-        audience: userId,
       };
       jwt.sign(payload, secret, options, (err, token) => {
         if (err) {
@@ -33,7 +30,6 @@ module.exports = {
       const options = {
         expiresIn: "1y",
         issuer: "localhost",
-        audience: userId,
       };
       jwt.sign(payload, secret, options, (err, token) => {
         if (err) {

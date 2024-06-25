@@ -1,16 +1,11 @@
 const Event = require("../Modules/Events").default;
+const eventSchema = require("../Helpers/validation");
 
 // Controller to create an event
 const CreateEvent = async (req, res) => {
   try {
-    const { title, description, date, location, capacity } = req.body;
-    const event = new Event({
-      title,
-      description,
-      date,
-      location,
-      capacity,
-    });
+    const eventData = await eventSchema.validateAsync(req.body);
+    const event = new Event(eventData);
     const result = await event.save();
     res.status(201).json(result);
   } catch (error) {

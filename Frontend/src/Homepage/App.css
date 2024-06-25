@@ -1,5 +1,5 @@
 .App {
-  background-color: #dceff5;
+  background: linear-gradient(to bottom, #ade8f4, #90e0ef, #90e0ef);
   text-align: center;
 }
 
@@ -9,20 +9,19 @@
 }
 
 .event {
-  border: 1px solid #ccc;
+  border: 1px solid #7476e4;
   border-radius: 5px;
   margin: 10px;
   padding: 20px;
   display: inline-block;
   width: calc(33.33% - 20px);
   vertical-align: top;
-  background-color: #f9f9f9;
+  background: linear-gradient(to bottom, #48cae4, #90e0ef, #ade8f4);
 }
 
 .event h3 {
   margin-top: 0;
 }
-
 .event p {
   margin-bottom: 10px;
 }
@@ -34,16 +33,32 @@
 .welcome-section {
   background-image: url("/image.jpg");
   background-size: cover;
+  font-size: 40px;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px rgba(4, 20, 245, 0.5);
   background-position: center;
-  color: rgb(7, 7, 7);
-  padding: 250px 50px;
+  color: rgb(210, 213, 238);
+  padding: 100px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  height: 90vh;
+}
+.welcome-section h1 {
+  margin-bottom: 20px
+}
+.welcome-section p {
+  max-width: 600px; 
+  margin-bottom: 30px;
 }
 .footer {
-  background-image: url("footer.jpg");
+  background-image: url("/footer.jpg");
   color: #000000;
   padding: 20px;
   text-align: center;
+  box-shadow: 2px 2px 4px rgb(0, 24, 245); /* Add shadow effect */
 }
 
 .circle-card {
@@ -57,9 +72,8 @@
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-/* Navbar Styles */
 .navbar {
-  background-color: #b3dee4;
+  background: linear-gradient(to bottom, #48cae4, #90e0ef, #ade8f4) #f5f2f2;
   color: #0e0be6;
   display: flex;
   justify-content: space-between;
@@ -75,7 +89,7 @@
 }
 
 .navbar a:hover {
-  color: #0bb3dd;
+  color: #228ba5;
 }
 
 .navbar-logo {
@@ -84,13 +98,16 @@
 }
 
 .navbar-menu {
-  display: flex;
   list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
 }
 
 .navbar-menu li {
-  padding-left: 20px;
+  margin-left: 20px;
 }
+
 .navbar-search {
   display: flex;
   align-items: center;
@@ -104,7 +121,7 @@
 }
 
 .navbar-search button {
-  padding: 8px 10px;
+  padding: 8px 15px;
   background-color: #1606f0;
   color: white;
   border: none;
@@ -113,8 +130,9 @@
 }
 
 .navbar-search button:hover {
-  background-color: #0bc8f7;
+  background-color: #1b8fac;
 }
+
 .navbar.sticky {
   position: fixed;
   top: 0;
@@ -122,6 +140,7 @@
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 html {
   scroll-behavior: smooth;
 }
@@ -130,7 +149,7 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #caeaf1;
+  border: 1px solid #75dff7;
   border-radius: 50%;
   width: 250px;
   height: 250px;
@@ -142,28 +161,29 @@ html {
   margin: 10px;
 }
 .circle-card img {
-  width: 200%;
-  height: 200%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  border-radius: 50%;
+  transition: transform 0.5s;
 }
 .Card {
   display: flex;
   justify-content: center;
 }
-.circle-card::after {
-  content: attr(data-country);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: #fff;
+.image-name {
+  position: absolute; /* Position absolutely within .circle-card */
+  top: 50%; /* Position at the vertical center */
+  left: 50%; /* Position at the horizontal center */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Move back by half of its own width and height */
+  background-color: transparent;
+  text-shadow: 2px 2px 2px rgba(2, 2, 2, 0.5); /* Add a subtle shadow */
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #e2d3d3;
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 14px;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-.circle-card::after {
-  opacity: 1;
 }
