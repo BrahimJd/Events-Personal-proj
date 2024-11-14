@@ -1,6 +1,14 @@
 # Eventify
 
 Eventify is a platform for creating, managing, and promoting events. It allows users to register, login, and manage their events with ease. The platform includes features for user authentication, event creation, and event management.
+- ![241114_01h50m24s_screenshot](https://github.com/user-attachments/assets/a18488de-19c5-4244-9c2a-a250175342b5)
+- ![image](https://github.com/user-attachments/assets/171d8f3f-e186-4dbf-ab27-1e07f7d1ec0c)
+- ![image](https://github.com/user-attachments/assets/f89f51c9-cade-4b4e-9867-bbbb28266975)
+- ![image](https://github.com/user-attachments/assets/73c2d423-61d8-49e6-bada-4fb7117a4725)
+
+
+
+
 
 ## Features
 
@@ -28,3 +36,4 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 
 - **Node.js**
 - **MongoDB**
+
