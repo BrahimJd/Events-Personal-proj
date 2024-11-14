@@ -31,6 +31,20 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 - **Node.js**
 - **MongoDB**
 
+  1. **Clone the repository:**
+  2. **Install server dependencies**
+     ```bash
+     npm install
+  4. **Create a .env file in the server directory and add the following environment variables:**
+    ```bash
+      PORT=3000
+     MONGO_URI=your_mongodb_uri
+     ACCESS_TOKEN_SECRET=your_access_token_secret
+     REFRESH_TOKEN_SECRET=your_refresh_token_secret
+5. Start the App
+    ```bash
+     npm start
+
   
 ## Images
 
