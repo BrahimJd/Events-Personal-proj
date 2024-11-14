@@ -39,11 +39,11 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
      ```bash
      PORT=3000
      MONGO_URI=your_mongodb_uri
-      ACCESS_TOKEN_SECRET=your_access_token_secret
-       REFRESH_TOKEN_SECRET=your_refresh_token_secret   
-  6. 5. Start the App
-    ```bash
-     npm start
+     ACCESS_TOKEN_SECRET=your_access_token_secret
+     REFRESH_TOKEN_SECRET=your_refresh_token_secret   
+  5. Start the App
+      ```bash
+      npm start
     
 
   
