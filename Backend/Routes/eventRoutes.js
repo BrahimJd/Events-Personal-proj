@@ -1,19 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const eventController = require("../Controllers/eventcontroller");
-const authMiddleware = require("../MiddleWares/authmiddleware");
+const authMiddleware = require("../Middlewares/authentificationMiddleware");
+const {
+  authManager,
+  authSponsor,
+} = require("../Middlewares/authorizationMiddleware");
 
-//Routes
+// Routes
+router.post(
+  "/event",
+  /*authMiddleware, authManager*/ eventController.CreateEvent
+);
+router.get(
+  "/get-events",
+  /*authMiddleware, authSponsor*/ eventController.GetAllEvents
+);
+router.get("/get-event/:eventId", authMiddleware, eventController.GetEvent);
+router.put(
+  "/update/:eventId",
+  authMiddleware,
+  authManager,
+  eventController.UpdateEvent
+);
+router.delete(
+  "/delete/:eventId",
 
-// Route to create an event
-router.post("/", authMiddleware, eventController.CreateEvent);
-// Route to get all events
-router.get("/all", authMiddleware, eventController.GetAllEvents);
-// Route to get a single event by ID
-router.get("/:eventId", authMiddleware, eventController.GetEvent);
-// Route to update an event by ID
-router.put("/:eventId", authMiddleware, eventController.UpdateEvent);
-// Route to delete an event by ID
-router.delete("/:eventId", authMiddleware, eventController.DeleteEvent);
+  eventController.DeleteEvent
+);
 
 module.exports = router;
