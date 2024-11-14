@@ -1,16 +1,18 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  username: {
+  firstName: {
     type: String,
-    required: [true, "Username is required"],
-    unique: true,
+    required: [true, "First Name is required"],
+  },
+  lastName: {
+    type: String,
+    required: [true, "Last Name is required"],
   },
   email: {
     type: String,
     required: [true, "Email is required"],
     unique: true,
-    //validate: [isEmail, "invalid email"],
   },
   password: {
     type: String,
@@ -20,6 +22,7 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ["Manager", "Member", "Sponsor"],
+    default: "Member",
     required: true,
   },
 });
@@ -33,6 +36,12 @@ userSchema.pre("save", function (next) {
   }
   next();
 });
+
+userSchema.methods.isValidPassword = async function (password) {
+  const user = this;
+  const compare = await bcrypt.compare(password, user.password);
+  return compare;
+};
 
 const User = mongoose.model("User", userSchema);
 
