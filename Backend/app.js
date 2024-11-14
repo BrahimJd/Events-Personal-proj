@@ -21,7 +21,10 @@ app.use(bodyParser.json());
 
 Mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Could not connect to MongoDB", err));
+  .catch((err) => {
+    console.error("Could not connect to MongoDB", err);
+    process.exit(1);
+  });
 
 const db = Mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
@@ -33,9 +36,7 @@ db.once("open", function () {
 // authentification
 app.use("/auth", authRoutes);
 
-//ap.use("/events", require("./Routes/eventRoutes"));
-
-//app.use("/news", require("./Routes/newsRoutes"));
+app.use("/events", require("./Routes/eventRoutes"));
 
 //app.use("/users", require("./Routes/userRoutes"));
 

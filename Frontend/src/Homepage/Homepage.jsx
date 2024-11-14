@@ -1,38 +1,37 @@
-import NavBar from "./Navbar"
+import React from "react";
+import { Link } from "react-router-dom";
 
-function homePage() {
+function Homepage() {
   return (
-    <div>
-      <NavBar />
-      <div className="bg-white pb-6 sm:pb-8 lg:pb-12">
-      <div className="mx-auto max-w-screen-2xl px-4 md:px-8">
-      <section className="min-h-96 relative flex flex-1 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-100 py-16 shadow-lg md:py-20 xl:py-48">
-      <img src="https://images.unsplash.com/photo-1618004652321-13a63e576b80?auto=format&q=75&fit=crop&w=1500" loading="lazy" alt="Photo by Fakurian Design" className="absolute inset-0 h-full w-full object-cover object-center" />
-
-      <div className="absolute inset-0 bg-indigo-500 mix-blend-multiply"></div>
-  
-      <div className="relative flex flex-col items-center p-4 sm:max-w-xl">
-        <p className="mb-4 text-center text-lg text-indigo-200 sm:text-xl md:mb-8">Very proud to introduce</p>
-        <h1 className="mb-8 text-center text-4xl font-bold text-white sm:text-5xl md:mb-12 md:text-6xl">Revolutionary way to build the web</h1>
-
-        <div className="flex w-full flex-col gap-2.5 sm:flex-row sm:justify-center">
-          <a href="#" className="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">Start now</a>
-
-          <a href="#" className="inline-block rounded-lg bg-gray-200 px-8 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base">Take tour</a>
-        </div>
+    <div className="flex flex-col lg:flex-row h-screen bg-background text-foreground">
+      <div className="flex flex-col justify-center lg:w-1/2 p-8">
+        <h1 className="text-4xl font-semibold text-purple-400 mb-4 tracking-tight">
+          Celebrate, Connect and Create Your Events with Eventify
+        </h1>
+        <p className="text-gray-light mb-8 leading-relaxed">
+          Discover Eventify, the premier platform for celebrating, connecting,
+          and creating memorable events. Our comprehensive suite of tools
+          simplifies event planning, allowing you to focus on what truly matters
+          – enjoying your event. From seamless coordination to beautiful design
+          options, Eventify transforms your vision into reality with just a few
+          clicks.
+        </p>
+        <Link to="/create-event">
+          <button className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/25">
+            Get Started
+          </button>
+        </Link>
       </div>
-    </section>
-
-      
-      
-
-        <h1 className="text-5xl font-bold text-center">Welcome to the Homepage</h1>
-        <p className="text-xl text-center">This is the homepage of our website</p>
+      <div className="lg:w-1/2 h-full relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-background to-transparent z-10" />
+        <img
+          src="https://images.unsplash.com/photo-1614054111655-10c58a264433?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Eventify"
+          className="object-cover w-full h-full brightness-90"
+        />
       </div>
     </div>
-    </div>
-    
   );
 }
 
-export default homePage;
+export default Homepage;

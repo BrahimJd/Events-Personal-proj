@@ -5,6 +5,7 @@ const authSchema = Joi.object({
   lastName: Joi.string().min(3).required(),
   email: Joi.string().email().lowercase().required(),
   password: Joi.string().min(6).required(),
+  role: Joi.string().valid("Manager", "Member", "Sponsor"),
 });
 
 const loginSchema = Joi.object({
@@ -12,13 +13,14 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-const EventSchema = Joi.object({
+const eventValidationSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string().required(),
-  date: Joi.date().required(),
+  date: Joi.date().iso().required(),
   time: Joi.string().required(),
   location: Joi.string().required(),
-  category: Joi.string().required(),
-  image: Joi.string().required(), 
+  category: Joi.string().valid("Music", "Sports", "Art").required(),
+  image: Joi.string().uri().required(),
 });
-module.exports = { authSchema, loginSchema, EventSchema };
+
+module.exports = { authSchema, loginSchema, eventValidationSchema };
