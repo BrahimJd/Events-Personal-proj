@@ -9,6 +9,7 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 - **User Authentication** (Register, Login, Logout)
 - **Create, Update, Delete Events**
 - **View Event Details**
+- **Access Latest News**
 - **User Roles** (Manager, Member, Sponsor)
 - **Protected Routes** for authenticated users
 - **Refresh Token Mechanism**
