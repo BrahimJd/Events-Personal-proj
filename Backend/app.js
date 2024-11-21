@@ -15,7 +15,7 @@ app.use(
     origin: "https://eventify-frontend-jbco.onrender.com",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-uploadthing-package"],
   })
 );
 
