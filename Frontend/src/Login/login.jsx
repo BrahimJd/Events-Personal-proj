@@ -1,13 +1,16 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import apiClient from "../api/apiClient";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../api/AuthContext";
 
 function LoginForm() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -15,6 +18,7 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (user.password.length < 6) {
       alert("Password must be at least 6 characters long");
       return;
@@ -27,28 +31,17 @@ function LoginForm() {
       alert("Invalid email address");
       return;
     }
+
     try {
-      const response = await apiClient.post("/auth/login", user);
-      if (response.status === 200) {
-        const accessToken = response.data.accesstoken;
-        const refreshToken = response.data.refreshToken;
-        if (accessToken) {
-          localStorage.setItem("accessToken", accessToken);
-          console.log("Access token saved:", accessToken);
-        } else {
-          console.error("Access token not found in response");
-        }
-        if (refreshToken) {
-          localStorage.setItem("refreshToken", refreshToken);
-          console.log("Refresh token saved:", refreshToken);
-        } else {
-          console.error("Refresh token not found in response");
-        }
-      }
-      alert("Login successful");
+      setIsSubmitting(true);
+      await login(user);
+
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("Error logging in:", error);
-      alert("Failed to login. Please check your credentials.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -60,12 +53,13 @@ function LoginForm() {
             Welcome back
           </h1>
           <p className="text-gray-light mb-8">Login to your account</p>
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               type="email"
               name="email"
               onChange={handleChange}
               placeholder="Email"
+              disabled={isSubmitting}
               className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
             />
             <input
@@ -73,14 +67,15 @@ function LoginForm() {
               name="password"
               onChange={handleChange}
               placeholder="Password"
+              disabled={isSubmitting}
               className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
             />
             <button
               type="submit"
-              onClick={handleSubmit}
-              className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Login
+              {isSubmitting ? "Logging in..." : "Login"}
             </button>
           </form>
           <p className="text-gray-light mt-6 text-center">

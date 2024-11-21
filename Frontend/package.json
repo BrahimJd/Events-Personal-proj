@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@material-tailwind/react": "^2.1.9",
+    "@uploadthing/react": "^7.1.1",
     "axios": "^1.6.8",
+    "lucide-react": "^0.460.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.3.5",
     "react-icons": "^5.2.1",
     "react-router-dom": "^6.23.0",
-    "react-toastify": "^10.0.6"
+    "react-toastify": "^10.0.6",
+    "uploadthing": "^7.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.9.0",
