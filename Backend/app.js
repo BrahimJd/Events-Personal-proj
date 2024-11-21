@@ -8,9 +8,16 @@ const port = process.env.PORT || 3000;
 const cors = require("cors");
 const authRoutes = require("./Routes/authRoutes");
 const authMiddleware = require("./Middlewares/authentificationMiddleware");
+const uploadthingRoutes = require("./Routes/uploadRoutes");
 
 //Enable CORS
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 // Template Engine
 app.use(expressLayout);
 app.set("layout", "./layouts/layout");
@@ -18,6 +25,9 @@ app.set("view engine", "ejs");
 
 // Middleware
 app.use(bodyParser.json());
+
+// Uploadthing
+app.use("/api/uploadthing", uploadthingRoutes);
 
 Mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))

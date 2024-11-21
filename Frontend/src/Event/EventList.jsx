@@ -1,67 +1,19 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../api/AuthContext";
+import apiClient from "../api/apiClient";
 
 const EventList = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  // Function to refresh the token using refreshToken
-  const refreshAccessToken = async () => {
-    const refreshToken = localStorage.getItem("refreshToken");
-
-    if (!refreshToken) {
-      alert("You need to be logged in to refresh the token.");
-      navigate("/login");
-      return;
-    }
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/auth/refresh-token", // Your backend endpoint for refreshing the token
-        { refreshToken }
-      );
-      const { token, refreshToken: newRefreshToken } = response.data;
-
-      // Store the new tokens
-      localStorage.setItem("token", token);
-      localStorage.setItem("refreshToken", newRefreshToken);
-
-      console.log("Tokens refreshed.");
-      return token; // Return the refreshed token
-    } catch (error) {
-      console.error("Error refreshing token:", error);
-      alert("Failed to refresh token. Please log in again.");
-      navigate("/login");
-    }
-  };
+  const { isAuthenticated, refreshAccessToken } = useAuth();
 
   useEffect(() => {
     const fetchEvents = async () => {
-      let token = localStorage.getItem("token");
-
-      // Check if token exists and is still valid
-      if (!token) {
-        token = await refreshAccessToken(); // Refresh token if not available
-      }
-
-      if (!token) {
-        alert("You need to be logged in to view events.");
-        navigate("/login");
-        return;
-      }
-
       try {
-        const response = await axios.get(
-          "http://localhost:3000/events/get-events",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`, // Use the token here
-            },
-          }
-        );
+        const response = await apiClient.get("/events/get-events");
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -70,30 +22,16 @@ const EventList = () => {
         setLoading(false);
       }
     };
-    fetchEvents();
-  }, [navigate]);
+
+    if (isAuthenticated) {
+      fetchEvents();
+    }
+  }, [isAuthenticated]);
 
   const handleDelete = async (eventId) => {
-    let token = localStorage.getItem("token");
-
-    // Check if token exists and is still valid
-    if (!token) {
-      token = await refreshAccessToken(); // Refresh token if not available
-    }
-
-    if (!token) {
-      alert("You need to be logged in to delete the event.");
-      navigate("/login");
-      return;
-    }
-
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
-        await axios.delete(`http://localhost:3000/events/delete/${eventId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Use the token here
-          },
-        });
+        await apiClient.delete(`/events/delete/${eventId}`);
         setEvents(events.filter((event) => event._id !== eventId));
         alert("Event deleted successfully.");
       } catch (error) {
