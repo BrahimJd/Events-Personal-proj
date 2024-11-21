@@ -6,8 +6,20 @@ const eventSchema = new mongoose.Schema({
   date: { type: Date, required: true },
   time: { type: String, required: true },
   location: { type: String, required: true },
-  category: { type: String, enum: ["Music", "Sports", "Art"], required: true }, // Change this line
-  image: { type: String, required: true },
+  category: {
+    type: String,
+    enum: [
+      "Music",
+      "Sports",
+      "Art",
+      "Business",
+      "Science",
+      "Technology",
+      "Other",
+    ],
+    required: true,
+  },
+  image: { type: String, required: false },
 });
 
 const Event = mongoose.model("Event", eventSchema);

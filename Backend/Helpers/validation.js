@@ -19,7 +19,15 @@ const eventValidationSchema = Joi.object({
   date: Joi.date().iso().required(),
   time: Joi.string().required(),
   location: Joi.string().required(),
-  category: Joi.string().valid("Music", "Sports", "Art").required(),
+  category: Joi.string().valid(
+    "Music",
+    "Technology",
+    "Sports",
+    "Art",
+    "Business",
+    "Science",
+    "Other"
+  ),
   image: Joi.string().uri().required(),
 });
 

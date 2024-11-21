@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { useAuth } from "../api/AuthContext";
+import apiClient from "../api/apiClient";
+import { useNavigate } from "react-router-dom";
+import { useDropzone } from "react-dropzone";
+import { useUploadThing } from "../../utils/uploadthing";
 
 function StartEvent() {
   const [event, setEvent] = useState({
@@ -9,75 +13,106 @@ function StartEvent() {
     time: "",
     location: "",
     category: "",
-    image: null, // Changed to hold file object
+    imageUrl: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  // Frontend/src/components/StartEvent.jsx
+  const { startUpload, isUploading } = useUploadThing("eventImage", {
+    onUploadError: (error) => {
+      console.error("Upload error:", error);
+      setError("Upload failed: " + error.message);
+    },
+    onUploadBegin: () => {
+      console.log("Upload starting...");
+    },
+    onClientUploadComplete: (res) => {
+      console.log("Upload completed:", res);
+      if (res?.[0]?.url) {
+        setEvent((prev) => ({
+          ...prev,
+          imageUrl: res[0].url,
+        }));
+      }
+    },
+  });
+
+  const onDrop = async (acceptedFiles) => {
+    try {
+      console.log("Uploading files:", acceptedFiles);
+      const result = await startUpload(acceptedFiles);
+      console.log("Upload result:", result);
+    } catch (err) {
+      console.error("Drop error:", err);
+      setError("Failed to process image");
+    }
+  };
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "image/*": [".jpeg", ".jpg", ".png", ".gif"] },
+    maxSize: 4 * 1024 * 1024,
+    onDrop,
   });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setEvent({ ...event, [name]: files[0] }); // Update image with file object
-    } else {
-      setEvent({ ...event, [name]: value });
-    }
+    const { name, value } = e.target;
+    setEvent((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      event.title === "" ||
-      event.description === "" ||
-      event.date === "" ||
-      event.time === "" ||
-      event.location === "" ||
-      event.category === ""
-    ) {
-      alert("Please fill all the fields except the image.");
-      return;
-    }
-
-    // Image validation
-    if (event.image && !event.image.type.startsWith("image/")) {
-      alert("Please upload a valid image file.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("title", event.title);
-    formData.append("description", event.description);
-    formData.append("date", event.date);
-    formData.append("time", event.time);
-    formData.append("location", event.location);
-    formData.append("category", event.category);
-    if (event.image) {
-      formData.append("image", event.image);
-    }
+    setError("");
+    setLoading(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/events/event",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      if (response.status === 201) {
-        alert("Event created successfully");
+      if (!isAuthenticated) {
+        throw new Error("You must be logged in to create an event.");
       }
-    } catch (error) {
-      console.log(error);
-      alert("Error creating event: " + error.response?.data?.error);
+
+      // Validate required fields
+      const required = [
+        "title",
+        "description",
+        "date",
+        "time",
+        "location",
+        "category",
+      ];
+      const missing = required.filter((field) => !event[field]);
+
+      if (missing.length > 0) {
+        throw new Error(
+          `Please fill in all required fields: ${missing.join(", ")}`
+        );
+      }
+
+      const response = await apiClient.post("/events/event", {
+        ...event,
+        image: event.imageUrl, // Send image URL instead of file
+      });
+
+      if (response.status === 201) {
+        navigate("/events");
+      }
+    } catch (err) {
+      setError(err.message || "Failed to create event");
+      console.error("Event creation error:", err);
+    } finally {
+      setLoading(false);
     }
   };
-
-  const { title, description, date, time, location, category, image } = event;
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-background text-foreground py-12">
       <div className="max-w-screen-xl px-4 md:px-8 w-full">
         <section className="flex flex-col lg:flex-row bg-primary rounded-lg shadow-lg overflow-hidden">
-          {/* Left Side - Form */}
           <div className="lg:w-2/3 p-8 sm:p-10">
             <h1 className="text-3xl font-bold text-purple-400 mb-6 md:text-4xl">
               Start Your Event Journey
@@ -86,6 +121,12 @@ function StartEvent() {
               Fill in the details below to create your amazing event. Make it
               memorable!
             </p>
+
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500 rounded text-red-500">
+                {error}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -96,10 +137,11 @@ function StartEvent() {
                   <input
                     type="text"
                     name="title"
-                    value={title}
+                    value={event.title}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
                     placeholder="Enter event title"
+                    required
                   />
                 </div>
                 <div>
@@ -109,10 +151,11 @@ function StartEvent() {
                   <input
                     type="text"
                     name="location"
-                    value={location}
+                    value={event.location}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
                     placeholder="Enter location"
+                    required
                   />
                 </div>
               </div>
@@ -123,10 +166,11 @@ function StartEvent() {
                 </label>
                 <textarea
                   name="description"
-                  value={description}
+                  value={event.description}
                   onChange={handleChange}
                   className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none h-32"
                   placeholder="Describe your event"
+                  required
                 />
               </div>
 
@@ -138,9 +182,10 @@ function StartEvent() {
                   <input
                     type="date"
                     name="date"
-                    value={date}
+                    value={event.date}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                    required
                   />
                 </div>
                 <div>
@@ -150,9 +195,10 @@ function StartEvent() {
                   <input
                     type="time"
                     name="time"
-                    value={time}
+                    value={event.time}
                     onChange={handleChange}
                     className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                    required
                   />
                 </div>
               </div>
@@ -163,15 +209,19 @@ function StartEvent() {
                 </label>
                 <select
                   name="category"
-                  value={category}
+                  value={event.category}
                   onChange={handleChange}
                   className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
+                  required
                 >
                   <option value="">Select category</option>
                   <option value="Music">Music</option>
                   <option value="Technology">Technology</option>
                   <option value="Business">Business</option>
-                  <option value="Health">Health</option>
+                  <option value="Art">Art</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Science">Science</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -179,37 +229,53 @@ function StartEvent() {
                 <label className="block text-sm font-semibold text-gray-light mb-2">
                   Image (Optional)
                 </label>
-                <input
-                  type="file"
-                  name="image"
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"
-                />
+                <div
+                  {...getRootProps()}
+                  className="w-full px-4 py-2 bg-background text-foreground rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none cursor-pointer"
+                >
+                  <input {...getInputProps()} />
+                  {isUploading ? (
+                    <div className="flex items-center justify-center">
+                      <p className="text-purple-400">Uploading...</p>
+                    </div>
+                  ) : (
+                    <div className="text-center">
+                      <p className="text-gray-light text-sm">
+                        Drag & drop an image here, or click to select
+                      </p>
+                      <p className="text-gray-light text-xs mt-2">
+                        (Max size: 4MB - JPG, PNG, GIF)
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
 
-              {image && (
+              {event.imageUrl && (
                 <div>
                   <p className="text-sm font-semibold text-gray-light mb-2">
                     Image Preview:
                   </p>
                   <img
-                    src={URL.createObjectURL(image)}
+                    src={event.imageUrl}
                     alt="Event Preview"
-                    className="h-48 object-cover rounded-lg"
+                    className="h-48 w-full object-cover rounded-lg"
                   />
                 </div>
               )}
 
               <button
                 type="submit"
-                className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+                disabled={loading || isUploading}
+                className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg 
+                         hover:bg-purple-600 transition-all duration-300 shadow-lg 
+                         hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Event
+                {loading ? "Creating Event..." : "Create Event"}
               </button>
             </form>
           </div>
 
-          {/* Right Side - Image */}
           <div className="lg:w-1/3 relative hidden lg:block">
             <div className="absolute inset-0 bg-gradient-to-l from-primary to-transparent z-10" />
             <img
@@ -223,5 +289,4 @@ function StartEvent() {
     </div>
   );
 }
-
 export default StartEvent;
