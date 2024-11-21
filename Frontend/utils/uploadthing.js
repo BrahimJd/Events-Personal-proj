@@ -7,5 +7,9 @@ export const { useUploadThing } = generateReactHelpers({
   config: {
     alwaysAcceptFiles: true,
     credentials: "include",
+    headers: {
+      "uploadthing-client-version": "1.0.0",
+    },
+    mode: "cors",
   },
 });
