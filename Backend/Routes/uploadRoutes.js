@@ -1,18 +1,15 @@
 const express = require("express");
 const { createRouteHandler } = require("uploadthing/express");
-const uploadThingConfig = require("../Helpers/uploadthing");
+const uploadthingRouter = require("../Helpers/uploadthing");
 
 const router = express.Router();
 
-const uploadHandler = createRouteHandler(uploadThingConfig);
+const uploadHandler = createRouteHandler(uploadthingRouter);
 
-router.use("/", (req, res, next) => {
-  try {
-    uploadHandler(req, res, next);
-  } catch (error) {
-    console.error("Error in upload route:", error);
-    res.status(500).send("Internal Server Error");
-  }
+router.get("/", (req, res) => {
+  res.send({ message: "Upload endpoint running" });
 });
+
+router.post("/", uploadHandler);
 
 module.exports = router;
