@@ -15,9 +15,6 @@ app.use(
     origin: "https://eventify-frontend-jbco.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
-      "Access-Control-Allow-Origin",
-      "Access-Control-Allow-Headers",
-      "Access-Control-Allow-Methods",
       "Origin",
       "X-Requested-With",
       "Content-Type",
@@ -26,13 +23,12 @@ app.use(
       "x-uploadthing-api-key",
       "x-uploadthing-upload-id",
       "x-uploadthing-upload-token",
-      "x-uploadthing-package",
       "x-uploadthing-version",
-      "x-uploadthing-token",
-      "x-uploadthing-user",
+      "uploadthing-client-version", // Added this
     ],
+    exposedHeaders: ["*"], // Changed to allow all exposed headers
     credentials: true,
-    preflightContinue: true,
+    preflightContinue: false,
     optionsSuccessStatus: 204,
   })
 );
