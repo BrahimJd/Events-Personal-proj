@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import apiClient from "../api/apiClient";
 
 function RegisterForm() {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -41,6 +42,7 @@ function RegisterForm() {
       const response = await apiClient.post("/auth/register", user);
       if (response.status === 201) {
         alert("User registered successfully");
+        navigate("/login");
       }
     } catch (error) {
       console.log(error);
