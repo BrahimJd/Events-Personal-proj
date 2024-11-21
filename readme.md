@@ -54,6 +54,7 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 ![image](https://github.com/user-attachments/assets/171d8f3f-e186-4dbf-ab27-1e07f7d1ec0c)
 ![image](https://github.com/user-attachments/assets/f89f51c9-cade-4b4e-9867-bbbb28266975)
 ![image](https://github.com/user-attachments/assets/34fb69be-76ce-4fdc-a504-d820a5657877)
-![image](https://github.com/user-attachments/assets/73c2d423-61d8-49e6-bada-4fb7117a4725)
-![image](https://github.com/user-attachments/assets/673cfede-862b-4fd5-a6fb-5221feb68ca0)
+![image](https://github.com/user-attachments/assets/c7cd9397-7d22-4f31-88e5-9a13fe356e5a)
+![image](https://github.com/user-attachments/assets/bb7ba246-3e72-4bc3-8317-d519568b58b1)
+![image](https://github.com/user-attachments/assets/df888c56-1297-4aec-b0e6-c30163672df0)
 
