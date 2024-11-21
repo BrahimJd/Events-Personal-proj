@@ -24,15 +24,20 @@ app.use(
       "x-uploadthing-upload-id",
       "x-uploadthing-upload-token",
       "x-uploadthing-version",
-      "uploadthing-client-version", // Added this
+      "uploadthing-client-version",
     ],
-    exposedHeaders: ["*"], // Changed to allow all exposed headers
+    exposedHeaders: [
+      "Access-Control-Allow-Origin",
+      "Access-Control-Allow-Methods",
+      "Access-Control-Allow-Headers",
+    ],
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204,
   })
 );
-
+// Uploadthing
+app.use("/api/uploadthing", uploadthingRoutes);
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,9 +46,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressLayout);
 app.set("layout", "./layouts/layout");
 app.set("view engine", "ejs");
-
-// Uploadthing
-app.use("/api/uploadthing", uploadthingRoutes);
 
 Mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
