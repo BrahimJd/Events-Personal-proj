@@ -15,6 +15,9 @@ app.use(
     origin: "https://eventify-frontend-jbco.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
+      "Access-Control-Allow-Origin",
+      "Access-Control-Allow-Headers",
+      "Access-Control-Allow-Methods",
       "Origin",
       "X-Requested-With",
       "Content-Type",
