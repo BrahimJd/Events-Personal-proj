@@ -2,6 +2,7 @@ services:
   - type: web
     name: eventify-backend
     env: node
+    plan: free
     buildCommand: cd Backend && npm install
     startCommand: cd Backend && node app.js
     envVars:
@@ -19,6 +20,7 @@ services:
   - type: web
     name: eventify-frontend
     env: node
+    plan: free
     buildCommand: cd Frontend && npm install && npm run build
     startCommand: cd Frontend && npm run preview
     envVars:
