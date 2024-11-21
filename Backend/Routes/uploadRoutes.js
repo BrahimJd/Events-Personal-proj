@@ -5,6 +5,7 @@ const uploadthingRouter = require("../Helpers/uploadthing");
 const router = express.Router();
 
 router.options("/", (req, res) => {
+  res.header("Access-Control-Allow-Headers", "x-uploadthing-package");
   res.status(204).end();
 });
 
