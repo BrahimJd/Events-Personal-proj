@@ -4,7 +4,8 @@ const uploadthingRouter = require("../Helpers/uploadthing");
 
 const router = express.Router();
 
-// Add request logging
+console.log("Loaded uploadthingRouter:", uploadthingRouter);
+
 router.use((req, res, next) => {
   console.log("[Upload Request]", {
     method: req.method,
@@ -16,30 +17,23 @@ router.use((req, res, next) => {
   next();
 });
 
-router.post("/", async (req, res) => {
+router.post("/", (req, res) => {
+  if (!uploadthingRouter || !uploadthingRouter.eventImage) {
+    console.error(
+      "Invalid uploadthingRouter configuration:",
+      uploadthingRouter
+    );
+    return res.status(500).json({
+      error: "Upload configuration error",
+    });
+  }
+
   try {
     const handler = createRouteHandler(uploadthingRouter);
-
-    await new Promise((resolve, reject) => {
-      handler(req, res, (error) => {
-        if (error) {
-          console.error("[Upload Handler Error]", {
-            message: error.message,
-            stack: error.stack,
-            cause: error.cause,
-          });
-          reject(error);
-        }
-        resolve();
-      });
-    });
+    return handler(req, res);
   } catch (error) {
-    console.error("[Upload Route Error]", {
-      message: error.message,
-      stack: error.stack,
-      cause: error.cause,
-    });
-    res.status(500).json({
+    console.error("Upload handler error:", error);
+    return res.status(500).json({
       error: "Upload failed",
       details: error.message,
     });
