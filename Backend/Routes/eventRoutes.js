@@ -10,12 +10,12 @@ const {
 // Routes
 router.post(
   "/event",
-  /*authMiddleware, authManager*/ eventController.CreateEvent
+  authMiddleware,
+  authManager,
+  authSponsor,
+  eventController.CreateEvent
 );
-router.get(
-  "/get-events",
-  /*authMiddleware, authSponsor*/ eventController.GetAllEvents
-);
+router.get("/get-events", authMiddleware, eventController.GetAllEvents);
 router.get("/get-event/:eventId", authMiddleware, eventController.GetEvent);
 router.put(
   "/update/:eventId",
@@ -25,7 +25,8 @@ router.put(
 );
 router.delete(
   "/delete/:eventId",
-
+  authMiddleware,
+  authManager,
   eventController.DeleteEvent
 );
 

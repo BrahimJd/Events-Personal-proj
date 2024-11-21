@@ -4,6 +4,7 @@ import apiClient from "../api/apiClient";
 import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { useUploadThing } from "../../utils/uploadthing";
+import { toast } from "react-toastify";
 
 function StartEvent() {
   const [event, setEvent] = useState({
@@ -21,11 +22,10 @@ function StartEvent() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Frontend/src/components/StartEvent.jsx
   const { startUpload, isUploading } = useUploadThing("eventImage", {
     onUploadError: (error) => {
       console.error("Upload error:", error);
-      setError("Upload failed: " + error.message);
+      toast.error("Failed to upload image" + error.message);
     },
     onUploadBegin: () => {
       console.log("Upload starting...");
@@ -37,6 +37,7 @@ function StartEvent() {
           ...prev,
           imageUrl: res[0].url,
         }));
+        toast.success("Image uploaded successfully");
       }
     },
   });
@@ -48,7 +49,7 @@ function StartEvent() {
       console.log("Upload result:", result);
     } catch (err) {
       console.error("Drop error:", err);
-      setError("Failed to process image");
+      toast.error("Failed to upload image: " + err.message);
     }
   };
 
@@ -73,7 +74,9 @@ function StartEvent() {
 
     try {
       if (!isAuthenticated) {
-        throw new Error("You must be logged in to create an event.");
+        toast.error("You must be logged in to create an event.");
+        navigate("/login");
+        return;
       }
 
       // Validate required fields
@@ -88,7 +91,7 @@ function StartEvent() {
       const missing = required.filter((field) => !event[field]);
 
       if (missing.length > 0) {
-        throw new Error(
+        toast.error(
           `Please fill in all required fields: ${missing.join(", ")}`
         );
       }
@@ -99,11 +102,16 @@ function StartEvent() {
       });
 
       if (response.status === 201) {
+        toast.success("Event created successfully");
         navigate("/events");
       }
-    } catch (err) {
-      setError(err.message || "Failed to create event");
-      console.error("Event creation error:", err);
+    } catch (error) {
+      console.error("Event creation error:", error);
+      if (error.response?.status === 403) {
+        toast.error("You don't have permission to create events");
+      } else {
+        toast.error(error.response?.data?.message || "Failed to create event");
+      }
     } finally {
       setLoading(false);
     }
