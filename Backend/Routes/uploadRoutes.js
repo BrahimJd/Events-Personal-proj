@@ -1,23 +1,37 @@
 const express = require("express");
 const { createRouteHandler } = require("uploadthing/express");
-const { ourFileRouter } = require("../Helpers/uploadthing");
+const uploadThingConfig = require("../Helpers/uploadthing");
 
 const router = express.Router();
 
 router.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:10000");
-  res.header("Access-Control-Allow-Credentials", true);
+  console.log("[UploadThing Request]", {
+    method: req.method,
+    path: req.path,
+    query: req.query,
+  });
   next();
 });
 
-router.use("/", (req, res) => {
-  try {
-    const handler = createRouteHandler(ourFileRouter);
-    return handler(req, res);
-  } catch (error) {
-    console.error(`${req.method} handler error:`, error);
-    return res.status(500).json({ error: error.message });
-  }
+const uploadHandler = createRouteHandler({
+  router: uploadThingConfig,
+  config: {
+    isDev: process.env.NODE_ENV === "development",
+  },
 });
+
+const handleUpload = (req, res) => {
+  try {
+    return uploadHandler(req, res);
+  } catch (error) {
+    console.error("[UploadThing Error]", error);
+    return res.status(500).json({
+      error: "Upload failed",
+      message: error.message,
+    });
+  }
+};
+
+router.use("/", handleUpload);
 
 module.exports = router;
