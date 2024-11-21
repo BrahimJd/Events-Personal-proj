@@ -27,9 +27,7 @@ app.use(
       "x-uploadthing-package",
       "uploadthing-client-version",
     ],
-    exposedHeaders: ["*"],
     credentials: true,
-    preflightContinue: false,
     optionsSuccessStatus: 204,
   })
 );
