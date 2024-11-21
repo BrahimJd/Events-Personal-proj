@@ -10,6 +10,5 @@ export const { useUploadThing } = generateReactHelpers({
     headers: {
       "uploadthing-client-version": "1.0.0",
     },
-    mode: "cors",
   },
 });
