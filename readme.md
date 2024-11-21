@@ -6,24 +6,39 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 
 ## Features
 
-- **User Authentication** (Register, Login, Logout)
-- **Create, Update, Delete Events**
-- **View Event Details**
-- **Access Latest News**
-- **User Roles** (Manager, Member, Sponsor)
-- **Protected Routes** for authenticated users
-- **Refresh Token Mechanism**
+### User Management
+- 👤 Authentication (Register/Login/Logout)
+- 🔐 JWT-based security with refresh tokens
+- 👥 Role-based access control (Manager, Member, Sponsor)
+- 🛡️ Protected routes for authenticated users
+  
+### Event Management
+- ✨ Create and manage events
+- 📝 Edit event details
+- 🗑️ Delete events
+- 🖼️ Image upload support
+
+## Additional Features
+- 📰 Latest news integration
+- 🎨 Modern UI with Tailwind CSS
+- ✅ Form validation with Joi
+
 
 ## Technologies Used
+### Backend
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT Authentication
+- Joi Validation
+- UploadThing for image handling
 
-- **Node.js**
-- **Express.js**
-- **MongoDB**
-- **Mongoose**
-- **React.js**
-- **Tailwind CSS**
-- **JWT** for authentication
-- **Joi** for validation
+### Frontend
+- React.js
+- Tailwind CSS
+- Axios for API calls
+- React Router for navigation
+- Context API for state management
 
 ## Getting Started
 
