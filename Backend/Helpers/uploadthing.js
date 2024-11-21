@@ -2,21 +2,21 @@ const { createUploadthing } = require("uploadthing/express");
 
 const f = createUploadthing();
 
-const uploadThingConfig = {
+const uploadthingRouter = {
   eventImage: f({
-    image: { maxFileSize: "4MB" },
+    image: {
+      maxFileSize: "4MB",
+      maxFileCount: 1,
+    },
   })
-    .middleware(() => {
-      if (!process.env.UPLOADTHING_TOKEN) {
-        console.error("UPLOADTHING_TOKEN is not configured");
-        throw new Error("UPLOADTHING_TOKEN is not configured");
-      }
-      return {};
+    .middleware(async () => {
+      return { uploadthingId: process.env.UPLOADTHING_TOKEN };
     })
-    .onUploadComplete(async ({ file }) => {
-      console.log("Upload complete:", file);
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("Upload complete for userId:", metadata.uploadthingId);
+      console.log("file url", file.url);
       return { url: file.url };
     }),
 };
 
-module.exports = uploadThingConfig;
+module.exports = uploadthingRouter;
