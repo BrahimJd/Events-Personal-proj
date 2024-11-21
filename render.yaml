@@ -26,3 +26,11 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://eventify-backend.onrender.com
+      - key: VITE_SEATGEEK_CLIENT_ID
+        sync: false
+      - key: VITE_UPLOADTHING_APP_ID
+        sync: false
+      - key: VITE_UPLOADTHING_SECRET
+        sync: false
+      - key: VITE_UPLOADTHING_TOKEN
+        sync: false
