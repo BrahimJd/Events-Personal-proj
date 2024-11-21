@@ -12,7 +12,10 @@ const uploadthingRoutes = require("./Routes/uploadRoutes");
 
 app.use(
   cors({
-    origin: "https://eventify-frontend-jbco.onrender.com",
+    origin: [
+      "https://eventify-frontend-jbco.onrender.com",
+      "http://localhost:10000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
       "Origin",
