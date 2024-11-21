@@ -6,5 +6,6 @@ export const { useUploadThing } = generateReactHelpers({
   url: `${API_URL}/api/uploadthing`,
   config: {
     alwaysAcceptFiles: true,
+    credentials: "include",
   },
 });

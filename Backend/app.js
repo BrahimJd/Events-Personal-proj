@@ -14,8 +14,23 @@ app.use(
   cors({
     origin: "https://eventify-frontend-jbco.onrender.com",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: "*",
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "Authorization",
+      "x-uploadthing-api-key",
+      "x-uploadthing-upload-id",
+      "x-uploadthing-upload-token",
+      "x-uploadthing-package",
+      "x-uploadthing-version",
+      "x-uploadthing-token",
+      "x-uploadthing-user",
+    ],
     credentials: true,
+    preflightContinue: true,
+    optionsSuccessStatus: 204,
   })
 );
 
