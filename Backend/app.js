@@ -31,11 +31,13 @@ app.use(
     optionsSuccessStatus: 204,
   })
 );
-// Uploadthing
-app.use("/api/uploadthing", uploadthingRoutes);
+
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Uploadthing
+app.use("/api/uploadthing", uploadthingRoutes);
 
 // Template Engine
 app.use(expressLayout);
