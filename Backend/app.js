@@ -12,12 +12,9 @@ const uploadthingRoutes = require("./Routes/uploadRoutes");
 
 app.use(
   cors({
-    origin: [
-      "https://eventify-frontend-jbco.onrender.com",
-      "http://localhost:10000",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: true, // Allow all origins temporarily for debugging
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
       "Origin",
       "X-Requested-With",
@@ -32,8 +29,6 @@ app.use(
       "uploadthing-client-version",
     ],
     exposedHeaders: ["*"],
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
   })
 );
 
