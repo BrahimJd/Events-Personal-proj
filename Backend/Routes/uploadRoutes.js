@@ -1,10 +1,12 @@
 const express = require("express");
 const { createRouteHandler } = require("uploadthing/express");
-const uploadthingRouter = require("../Helpers/uploadthing");
+const fileRouter = require("../Helpers/uploadthing");
 
 const router = express.Router();
 
-const uploadHandler = createRouteHandler(uploadthingRouter);
+const uploadHandler = createRouteHandler({
+  router: fileRouter,
+});
 
 router.get("/", (req, res) => {
   res.send({ message: "Upload endpoint running" });
