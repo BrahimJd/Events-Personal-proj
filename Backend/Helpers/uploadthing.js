@@ -2,7 +2,7 @@ const { createUploadthing } = require("uploadthing/express");
 
 const f = createUploadthing();
 
-const uploadthingRouter = {
+const ourFileRouter = {
   eventImage: f({ image: { maxFileSize: "4MB" } })
     .middleware(async () => {
       return { userId: "system" };
@@ -13,4 +13,4 @@ const uploadthingRouter = {
     }),
 };
 
-module.exports = { ourFileRouter: uploadthingRouter };
+module.exports = { ourFileRouter };
