@@ -13,7 +13,7 @@ const uploadthingRoutes = require("./Routes/uploadRoutes");
 //Enable CORS
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://eventify-frontend.onrender.com"],
     credentials: true,
   })
 );
