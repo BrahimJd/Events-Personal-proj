@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: eventify-backend
+    env: node
+    buildCommand: cd Backend && npm install
+    startCommand: cd Backend && node app.js
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: ACCESS_TOKEN_SECRET
+        sync: false
+      - key: REFRESH_TOKEN_SECRET
+        sync: false
+      - key: UPLOADTHING_SECRET
+        sync: false
+      - key: UPLOADTHING_APP_ID
+        sync: false
+
+  - type: web
+    name: eventify-frontend
+    env: node
+    buildCommand: cd Frontend && npm install && npm run build
+    startCommand: cd Frontend && npm run preview
+    envVars:
+      - key: VITE_API_URL
+        value: https://eventify-backend.onrender.com
