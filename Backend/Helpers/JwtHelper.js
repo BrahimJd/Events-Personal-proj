@@ -17,7 +17,7 @@ module.exports = {
       const secret = process.env.ACCESS_TOKEN_SECRET;
       const options = {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY || "12h",
-        issuer: process.env.JWT_ISSUER || "eventify-backend.onrender.com",
+        issuer: process.env.JWT_ISSUER || "eventify-backend-jbco.onrender.com",
       };
       jwt.sign(payload, secret, options, (err, token) => {
         if (err) {
@@ -43,7 +43,7 @@ module.exports = {
       const secret = process.env.REFRESH_TOKEN_SECRET;
       const options = {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY || "1y",
-        issuer: process.env.JWT_ISSUER || "eventify-backend.onrender.com",
+        issuer: process.env.JWT_ISSUER || "eventify-backend-jbco.onrender.com",
       };
       jwt.sign(payload, secret, options, (err, token) => {
         if (err) {
