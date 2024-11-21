@@ -16,16 +16,24 @@ services:
         sync: false
       - key: UPLOADTHING_APP_ID
         sync: false
+      - key: PORT
+        value: "8080"
+      - key: JWT_ISSUER
+        value: "eventify-backend-jbco.onrender.com"
+      - key: ACCESS_TOKEN_EXPIRY
+        value: "12h"
+      - key: REFRESH_TOKEN_EXPIRY
+        value: "1y"
 
   - type: web
     name: eventify-frontend
     env: node
     plan: free
     buildCommand: cd Frontend && npm install && npm run build
-    startCommand: cd Frontend && npm run preview
+    startCommand: cd Frontend && npm run preview -- --host 0.0.0.0 --port 10000
     envVars:
       - key: VITE_API_URL
-        value: https://eventify-backend.onrender.com
+        value: https://eventify-backend-jbco.onrender.com
       - key: VITE_SEATGEEK_CLIENT_ID
         sync: false
       - key: VITE_UPLOADTHING_APP_ID
