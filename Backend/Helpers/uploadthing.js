@@ -8,6 +8,7 @@ const uploadThingConfig = {
   })
     .middleware(() => {
       if (!process.env.UPLOADTHING_TOKEN) {
+        console.error("UPLOADTHING_TOKEN is not configured");
         throw new Error("UPLOADTHING_TOKEN is not configured");
       }
       return {};

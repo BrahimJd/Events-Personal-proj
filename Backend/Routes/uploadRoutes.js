@@ -1,16 +1,18 @@
-// Routes/uploadRoutes.js
 const express = require("express");
 const { createRouteHandler } = require("uploadthing/express");
 const uploadThingConfig = require("../Helpers/uploadthing");
 
 const router = express.Router();
 
-// Create route handler with config
-const uploadHandler = createRouteHandler({
-  router: uploadThingConfig,
-});
+const uploadHandler = createRouteHandler(uploadThingConfig);
 
-// Use single route handler for both GET and POST
-router.use("/", uploadHandler);
+router.use("/", (req, res, next) => {
+  try {
+    uploadHandler(req, res, next);
+  } catch (error) {
+    console.error("Error in upload route:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;
