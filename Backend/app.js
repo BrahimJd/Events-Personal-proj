@@ -17,6 +17,7 @@ app.use(
       "http://localhost:10000",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
     allowedHeaders: [
       "Origin",
       "X-Requested-With",
@@ -30,10 +31,17 @@ app.use(
       "x-uploadthing-package",
       "uploadthing-client-version",
     ],
-    credentials: true,
+    exposedHeaders: ["*"],
+    preflightContinue: false,
     optionsSuccessStatus: 204,
   })
 );
+
+app.options("*", cors());
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/api/uploadthing", uploadthingRoutes);
 
 // Middleware
 app.use(bodyParser.json());
