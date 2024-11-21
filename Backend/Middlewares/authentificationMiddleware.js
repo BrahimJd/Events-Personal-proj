@@ -20,7 +20,11 @@ const authMiddleware = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    req.user = decoded;
+    req.user = {
+      id: decoded.aud,
+      role: decoded.role,
+    };
+    console.log("User:", req.user);
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

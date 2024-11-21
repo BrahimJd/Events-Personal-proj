@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../api/AuthContext";
 import apiClient from "../api/apiClient";
+import { toast } from "react-toastify";
 
 const EventList = () => {
   const [events, setEvents] = useState([]);
@@ -17,7 +18,7 @@ const EventList = () => {
         setEvents(response.data);
       } catch (error) {
         console.error("Error fetching events:", error);
-        setError("Failed to fetch events.");
+        toast.error(error.response?.data?.message || "Failed to load events");
       } finally {
         setLoading(false);
       }
@@ -33,10 +34,16 @@ const EventList = () => {
       try {
         await apiClient.delete(`/events/delete/${eventId}`);
         setEvents(events.filter((event) => event._id !== eventId));
-        alert("Event deleted successfully.");
+        toast.success("Event deleted successfully");
       } catch (error) {
         console.error("Error deleting event:", error);
-        alert("Failed to delete the event.");
+        if (error.response?.status === 403) {
+          toast.error("You don't have permission to delete this event");
+        } else {
+          toast.error(
+            error.response?.data?.message || "Failed to delete event"
+          );
+        }
       }
     }
   };
