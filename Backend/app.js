@@ -26,13 +26,14 @@ app.use(
   })
 );
 
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Template Engine
 app.use(expressLayout);
 app.set("layout", "./layouts/layout");
 app.set("view engine", "ejs");
-
-// Middleware
-app.use(bodyParser.json());
 
 // Uploadthing
 app.use("/api/uploadthing", uploadthingRoutes);
