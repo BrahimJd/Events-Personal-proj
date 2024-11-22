@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { useUploadThing } from "../../utils/uploadthing";
 import { toast } from "react-toastify";
+import { validateEventFields } from "../../utils/validation";
 
 function StartEvent() {
   const [event, setEvent] = useState({
@@ -24,31 +25,26 @@ function StartEvent() {
 
   const { startUpload, isUploading } = useUploadThing("eventImage", {
     onUploadError: (error) => {
-      console.error("Upload error:", error);
-      toast.error("Failed to upload image" + error.message);
+      toast.error(`Upload failed: ${error.message}`);
     },
     onUploadBegin: () => {
-      console.log("Upload starting...");
+      toast.info("Uploading image...");
     },
     onClientUploadComplete: (res) => {
-      console.log("Upload completed:", res);
       if (res?.[0]?.url) {
         setEvent((prev) => ({
           ...prev,
           imageUrl: res[0].url,
         }));
-        toast.success("Image uploaded successfully");
+        toast.success("Image uploaded successfully!");
       }
     },
   });
 
   const onDrop = async (acceptedFiles) => {
     try {
-      console.log("Uploading files:", acceptedFiles);
-      const result = await startUpload(acceptedFiles);
-      console.log("Upload result:", result);
+      await startUpload(acceptedFiles);
     } catch (err) {
-      console.error("Drop error:", err);
       toast.error("Failed to upload image: " + err.message);
     }
   };
@@ -70,39 +66,28 @@ function StartEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+
+    const errors = validateEventFields(event);
+    if (Object.keys(errors).length > 0) {
+      Object.values(errors).forEach((error) => toast.error(error));
+      return;
+    }
 
     try {
+      setLoading(true);
       if (!isAuthenticated) {
-        toast.error("You must be logged in to create an event.");
+        toast.error("You must be logged in to create an event");
         navigate("/login");
         return;
       }
 
-      // Validate required fields
-      const required = [
-        "title",
-        "description",
-        "date",
-        "time",
-        "location",
-        "category",
-      ];
-      const missing = required.filter((field) => !event[field]);
-
-      if (missing.length > 0) {
-        toast.error(
-          `Please fill in all required fields: ${missing.join(", ")}`
-        );
-      }
-
       const response = await apiClient.post("/events/event", {
         ...event,
-        image: event.imageUrl, // Send image URL instead of file
+        image: event.imageUrl,
       });
 
       if (response.status === 201) {
-        toast.success("Event created successfully");
+        toast.success("Event created successfully!");
         navigate("/events");
       }
     } catch (error) {
