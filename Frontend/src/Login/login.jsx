@@ -35,7 +35,6 @@ function LoginForm() {
     try {
       setIsSubmitting(true);
       await login(user);
-      toast.success("Login successful!");
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (error) {
