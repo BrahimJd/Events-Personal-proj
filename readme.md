@@ -1,6 +1,7 @@
 # Eventify
 
-Eventify is a platform for creating, managing, and promoting events. It allows users to register, login, and manage their events with ease. The platform includes features for user authentication, event creation, and event management.
+Eventify is a modern event management platform built with MERN stack.
+
 
 
 
@@ -10,7 +11,7 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 - 👤 Authentication (Register/Login/Logout)
 - 🔐 JWT-based security with refresh tokens
 - 👥 Role-based access control (Manager, Member, Sponsor)
-- 🛡️ Protected routes for authenticated users
+- 🛡️ Protected routes 
   
 ### Event Management
 - ✨ Create and manage events
@@ -43,24 +44,76 @@ Eventify is a platform for creating, managing, and promoting events. It allows u
 ## Getting Started
 
 ### Prerequisites
-
 - **Node.js**
 - **MongoDB**
 
-  1. **Clone the repository:**
-  2. **Install server dependencies**
-     ```bash
-     npm install
-  4. **Create a .env file in the server directory and add the following environment variables:**
-     ```bash
-     PORT=3000
-     MONGO_URI=your_mongodb_uri
-     ACCESS_TOKEN_SECRET=your_access_token_secret
-     REFRESH_TOKEN_SECRET=your_refresh_token_secret   
-  5. Start the App
-      ```bash
-      npm start
-    
+
+---
+
+### 1. Clone the Repository
+```
+git clone https://github.com/BrahimJd/Events-Personal-proj
+cd Events-Personal-proj
+```
+
+---
+
+### 2. Install Dependencies
+Run the following commands to install dependencies for both server and client:
+```
+# Install server dependencies
+cd Backend
+npm install
+
+# Install client dependencies
+cd ../Frontend
+npm install
+```
+
+---
+
+### 3. Environment Variables Setup
+
+#### Server (.env)
+Create a `.env` file in the `Backend` directory with the following content:
+```
+PORT=3000
+MONGO_URI=your_mongodb_uri
+ACCESS_TOKEN_SECRET=your_access_token_secret
+REFRESH_TOKEN_SECRET=your_refresh_token_secret
+UPLOADTHING_SECRET=your_uploadthing_secret
+UPLOADTHING_APP_ID=your_uploadthing_app_id
+```
+
+#### Client (.env)
+Create a `.env` file in the `Frontend` directory with the following content:
+```
+VITE_SEATGEEK_CLIENT_ID=your_seatgeek_client_id
+VITE_UPLOADTHING_APP_ID=your_uploadthing_app_id
+VITE_UPLOADTHING_SECRET=your_uploadthing_secret
+```
+
+---
+
+### 4. Start the Application
+Run the following commands to start the server and client:
+
+#### Start the server
+From the `Backend` directory:
+```
+cd Backend
+npm start
+```
+
+#### Start the client
+From the `Frontend` directory:
+```
+cd ../Frontend
+npm run dev
+```
+
+---
+
 
   
 ## Images
