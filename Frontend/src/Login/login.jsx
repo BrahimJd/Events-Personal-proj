@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../api/AuthContext";
-
+import { toast } from "react-toastify";
+import { validateEmail, validatePassword } from "../../utils/validation";
 function LoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,27 +20,26 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (user.password.length < 6) {
-      alert("Password must be at least 6 characters long");
+    const emailError = validateEmail(user.email);
+    if (emailError) {
+      toast.error(emailError);
       return;
     }
-    if (user.email === "") {
-      alert("Please fill all the fields");
-      return;
-    }
-    if (!user.email.includes("@")) {
-      alert("Invalid email address");
+
+    const passwordError = validatePassword(user.password);
+    if (passwordError) {
+      toast.error(passwordError);
       return;
     }
 
     try {
       setIsSubmitting(true);
       await login(user);
-
+      toast.success("Login successful!");
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     } catch (error) {
-      console.error("Error logging in:", error);
+      toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setIsSubmitting(false);
     }

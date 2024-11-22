@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import apiClient from "../api/apiClient";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../api/AuthContext";
+import { toast } from "react-toastify";
+import {
+  validateEmail,
+  validatePassword,
+  validateName,
+} from "../../utils/validation";
 
 function RegisterForm() {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -11,6 +18,7 @@ function RegisterForm() {
     password: "",
   });
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -22,34 +30,47 @@ function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (user.password.length < 6) {
-      alert("Password must be at least 6 characters long");
+
+    const firstNameError = validateName(user.firstName, "First name");
+    if (firstNameError) {
+      toast.error(firstNameError);
       return;
     }
+
+    const lastNameError = validateName(user.lastName, "Last name");
+    if (lastNameError) {
+      toast.error(lastNameError);
+      return;
+    }
+
+    const emailError = validateEmail(user.email);
+    if (emailError) {
+      toast.error(emailError);
+      return;
+    }
+
+    const passwordError = validatePassword(user.password);
+    if (passwordError) {
+      toast.error(passwordError);
+      return;
+    }
+
     if (user.password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
-    if (user.firstName === "" || user.lastName === "" || user.email === "") {
-      alert("Please fill all the fields");
-      return;
-    }
-    if (!user.email.includes("@")) {
-      alert("Invalid email address");
-      return;
-    }
+
     try {
-      const response = await apiClient.post("/auth/register", user);
-      if (response.status === 201) {
-        alert("User registered successfully");
-        navigate("/login");
-      }
+      setIsSubmitting(true);
+      await register(user);
+      toast.success("Registration successful!");
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response?.data?.message || "Registration failed");
+    } finally {
+      setIsSubmitting(false);
     }
   };
-
-  const { firstName, lastName, email, password } = user;
 
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-background text-foreground">
@@ -69,52 +90,57 @@ function RegisterForm() {
           <p className="text-gray-light mb-8">
             Create an account to get started
           </p>
-          <form className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="First Name"
               name="firstName"
-              value={firstName}
+              value={user.firstName}
               onChange={handleChange}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <input
               type="text"
               placeholder="Last Name"
               name="lastName"
-              value={lastName}
+              value={user.lastName}
               onChange={handleChange}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <input
               type="email"
               placeholder="Email"
               name="email"
-              value={email}
+              value={user.email}
               onChange={handleChange}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <input
               type="password"
               placeholder="Password"
               name="password"
-              value={password}
+              value={user.password}
               onChange={handleChange}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <input
               type="password"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={handleConfirmPassword}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <button
               type="submit"
-              onClick={handleSubmit}
-              className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
+              disabled={isSubmitting}
+              className="w-full p-3 bg-purple-500 text-foreground font-semibold rounded-lg hover:bg-purple-600 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Register
+              {isSubmitting ? "Registering..." : "Register"}
             </button>
           </form>
           <p className="text-gray-light mt-6 text-center">
