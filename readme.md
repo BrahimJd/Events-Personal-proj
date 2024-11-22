@@ -3,6 +3,8 @@
 Eventify is a modern event management platform built with MERN stack.
 
 
+
+
 ## Features
 
 ### User Management
@@ -44,6 +46,7 @@ Eventify is a modern event management platform built with MERN stack.
 ### Prerequisites
 - **Node.js**
 - **MongoDB**
+
 
 ---
 
