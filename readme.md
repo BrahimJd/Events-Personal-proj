@@ -1,7 +1,7 @@
 # Eventify
 
 Eventify is a modern event management platform built with MERN stack.
-
+https://eventify-frontend-jbco.onrender.com/ 
 
 
 
