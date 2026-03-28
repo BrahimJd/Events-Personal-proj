@@ -24,7 +24,6 @@ const authMiddleware = (req, res, next) => {
       id: decoded.aud,
       role: decoded.role,
     };
-    console.log("User:", req.user);
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {

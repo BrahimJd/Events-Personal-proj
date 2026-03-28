@@ -1,10 +1,15 @@
 const Event = require("../Modules/Events");
+const { eventValidationSchema } = require("../Helpers/validation");
 
 const CreateEvent = async (req, res) => {
   try {
+    // Validate input
+    const validatedData = await eventValidationSchema.validateAsync(req.body);
+    
     const eventData = {
-      ...req.body,
-      image: req.body.imageUrl, // This will come from uploadthing
+      ...validatedData,
+      image: req.body.imageUrl,
+      createdBy: req.user.id, // Add user who created the event
     };
 
     const event = new Event(eventData);
@@ -12,8 +17,11 @@ const CreateEvent = async (req, res) => {
 
     res.status(201).json(savedEvent);
   } catch (error) {
-    console.error("Error creating event:", error);
-    res.status(500).json({ error: error.message });
+    console.error("Error creating event:", error.message);
+    if (error.isJoi === true) {
+      return res.status(400).json({ error: error.details[0].message });
+    }
+    res.status(500).json({ error: "Failed to create event" });
   }
 };
 
@@ -43,17 +51,24 @@ const GetAllEvents = async (req, res) => {
 // Controller to update an event by ID
 const UpdateEvent = async (req, res) => {
   try {
-    const { title, description, date, location, time, category, image } =
-      req.body;
-    const event = await Event.findByIdAndUpdate(
-      req.params.eventId,
-      { title, description, date, location, time, category, image },
-      { new: true, runValidators: true } // Added runValidators to enforce schema validation
-    );
+    const event = await Event.findById(req.params.eventId);
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
     }
-    res.status(200).json(event);
+
+    // Check if user owns the event
+    if (event.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({ message: "You can only update your own events" });
+    }
+
+    const { title, description, date, location, time, category, image } =
+      req.body;
+    const updatedEvent = await Event.findByIdAndUpdate(
+      req.params.eventId,
+      { title, description, date, location, time, category, image },
+      { new: true, runValidators: true }
+    );
+    res.status(200).json(updatedEvent);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -62,10 +77,17 @@ const UpdateEvent = async (req, res) => {
 // Controller to delete an event by ID
 const DeleteEvent = async (req, res) => {
   try {
-    const event = await Event.findByIdAndDelete(req.params.eventId);
+    const event = await Event.findById(req.params.eventId);
     if (!event) {
       return res.status(404).json({ message: "Event not found" });
     }
+
+    // Check if user owns the event
+    if (event.createdBy.toString() !== req.user.id) {
+      return res.status(403).json({ message: "You can only delete your own events" });
+    }
+
+    await Event.findByIdAndDelete(req.params.eventId);
     res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });

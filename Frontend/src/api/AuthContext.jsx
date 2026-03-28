@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const response = await apiClient.post("/auth/login", credentials);
-      const { accesstoken: accessToken, refreshToken } = response.data;
+      const { accessToken, refreshToken } = response.data;
 
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);

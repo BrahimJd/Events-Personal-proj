@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
     unique: true,
+    lowercase: true,
   },
   password: {
     type: String,
@@ -25,23 +26,14 @@ const userSchema = new mongoose.Schema({
     default: "Member",
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-userSchema.pre("save", function (next) {
-  const user = this;
-  if (!user.isModified("password") || !user.isNew) {
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(user.password, salt);
-    user.password = hash;
-  }
-  next();
-});
-
-userSchema.methods.isValidPassword = async function (password) {
-  const user = this;
-  const compare = await bcrypt.compare(password, user.password);
-  return compare;
-};
+// Add index for email queries
+userSchema.index({ email: 1 });
 
 const User = mongoose.model("User", userSchema);
 

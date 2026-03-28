@@ -13,7 +13,6 @@ const uploadThingConfig = {
       return {};
     })
     .onUploadComplete(async ({ file }) => {
-      console.log("Upload complete:", file);
       return { url: file.url };
     }),
 };

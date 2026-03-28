@@ -12,7 +12,7 @@ const uploadthingRoutes = require("./Routes/uploadRoutes");
 
 app.use(
   cors({
-    origin: true, // Allow all origins temporarily for debugging
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
@@ -28,15 +28,10 @@ app.use(
       "x-uploadthing-package",
       "uploadthing-client-version",
     ],
-    exposedHeaders: ["*"],
   })
 );
 
 app.options("*", cors());
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/api/uploadthing", uploadthingRoutes);
 
 // Middleware
 app.use(bodyParser.json());
@@ -44,11 +39,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Uploadthing
 app.use("/api/uploadthing", uploadthingRoutes);
-
-// Template Engine
-app.use(expressLayout);
-app.set("layout", "./layouts/layout");
-app.set("view engine", "ejs");
 
 Mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to MongoDB"))
@@ -70,6 +60,34 @@ app.use("/auth", authRoutes);
 app.use("/events", require("./Routes/eventRoutes"));
 
 //app.use("/users", require("./Routes/userRoutes"));
+
+// Global error handler middleware
+app.use((err, req, res, next) => {
+  console.error("Error:", err.message);
+  
+  // Handle Joi validation errors
+  if (err.isJoi) {
+    return res.status(400).json({ 
+      error: "Validation error", 
+      details: err.details?.[0]?.message 
+    });
+  }
+
+  // Handle MongoDB errors
+  if (err.name === "MongoError" || err.name === "MongoServerError") {
+    return res.status(500).json({ error: "Database error" });
+  }
+
+  // Default error response
+  res.status(err.status || 500).json({
+    error: err.message || "Internal server error"
+  });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

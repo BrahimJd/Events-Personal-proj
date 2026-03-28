@@ -20,6 +20,15 @@ const eventSchema = new mongoose.Schema({
     required: true,
   },
   image: { type: String, required: false },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Event = mongoose.model("Event", eventSchema);

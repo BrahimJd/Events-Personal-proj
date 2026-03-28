@@ -11,7 +11,6 @@ import NewsPage from "./News/NewsPage";
 import Register from "./Login/register";
 import Login from "./Login/login";
 import Homepage from "./Homepage/Homepage";
-import Dashboard from "./Dashboard/Dashboard";
 import EventList from "./Event/EventList";
 import NavBar from "./Homepage/NavBar";
 import EventDetails from "./Event/EventDetails";
@@ -51,14 +50,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <EventList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
               </ProtectedRoute>
             }
           />

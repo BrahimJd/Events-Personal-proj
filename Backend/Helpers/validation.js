@@ -28,7 +28,7 @@ const eventValidationSchema = Joi.object({
     "Science",
     "Other"
   ),
-  image: Joi.string().uri().required(),
+  image: Joi.string().uri().optional(), // Made optional since image upload is optional
 });
 
 module.exports = { authSchema, loginSchema, eventValidationSchema };

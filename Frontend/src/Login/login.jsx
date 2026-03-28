@@ -59,7 +59,7 @@ function LoginForm() {
               onChange={handleChange}
               placeholder="Email"
               disabled={isSubmitting}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <input
               type="password"
@@ -67,7 +67,7 @@ function LoginForm() {
               onChange={handleChange}
               placeholder="Password"
               disabled={isSubmitting}
-              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all"
+              className="w-full p-3 bg-background border border-purple-400/20 rounded-lg focus:outline-none focus:border-purple-400 transition-all disabled:opacity-50"
             />
             <button
               type="submit"

@@ -4,15 +4,6 @@ const uploadThingConfig = require("../Helpers/uploadthing");
 
 const router = express.Router();
 
-router.use((req, res, next) => {
-  console.log("[UploadThing Request]", {
-    method: req.method,
-    path: req.path,
-    query: req.query,
-  });
-  next();
-});
-
 const uploadHandler = createRouteHandler({
   router: uploadThingConfig,
   config: {
