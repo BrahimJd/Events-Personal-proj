@@ -71,7 +71,7 @@ const EventList = () => {
   return (
     <div className="min-h-screen bg-background text-foreground py-12">
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
-        <h1 className="text-4xl font-bold text-purple-400 mb-4 text-center">
+        <h1 className="title-font text-4xl font-bold text-purple-400 mb-4 text-center">
           Discover Amazing Events
         </h1>
 
@@ -91,7 +91,7 @@ const EventList = () => {
               </div>
 
               <div className="p-6">
-                <h2 className="text-xl font-bold text-purple-400 mb-2">
+                <h2 className="title-font text-xl font-bold text-purple-400 mb-2">
                   {event.title}
                 </h2>
                 <p className="text-gray-light mb-4">{event.description}</p>

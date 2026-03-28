@@ -83,7 +83,7 @@ function RegisterForm() {
       </div>
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
-          <h1 className="text-4xl font-semibold text-purple-400 mb-2">
+          <h1 className="title-font text-4xl font-semibold text-purple-400 mb-2">
             Welcome to Eventify🎉
           </h1>
           <p className="text-gray-light mb-8">

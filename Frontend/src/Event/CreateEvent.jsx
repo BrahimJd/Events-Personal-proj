@@ -27,7 +27,7 @@ const CreateEvent = () => {
             <p className="mb-4 font-semibold text-purple-400 md:mb-6 md:text-lg xl:text-xl">
               Thinking about hosting an event?
             </p>
-            <h1 className="mb-6 text-3xl font-bold text-foreground sm:text-4xl md:mb-8 md:text-5xl">
+            <h1 className="title-font mb-6 text-3xl font-bold text-foreground sm:text-4xl md:mb-8 md:text-5xl">
               Create your event and share it with the world
             </h1>
             <p className="mb-6 leading-relaxed text-gray-light md:mb-8 lg:w-4/5 xl:text-lg">

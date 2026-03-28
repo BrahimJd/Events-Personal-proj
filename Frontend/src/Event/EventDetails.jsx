@@ -209,7 +209,7 @@ const EventDetails = () => {
           </form>
         ) : (
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-purple-400 mb-4">
+            <h2 className="title-font text-4xl font-bold text-purple-400 mb-4">
               {event.title}
             </h2>
             <p className="text-gray-light mb-2">{event.description}</p>

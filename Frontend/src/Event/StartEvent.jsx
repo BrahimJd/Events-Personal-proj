@@ -107,7 +107,7 @@ function StartEvent() {
       <div className="max-w-screen-xl px-4 md:px-8 w-full">
         <section className="flex flex-col lg:flex-row bg-primary rounded-lg shadow-lg overflow-hidden">
           <div className="lg:w-2/3 p-8 sm:p-10">
-            <h1 className="text-3xl font-bold text-purple-400 mb-6 md:text-4xl">
+            <h1 className="title-font text-3xl font-bold text-purple-400 mb-6 md:text-4xl">
               Start Your Event Journey
             </h1>
             <p className="text-gray-light mb-8 leading-relaxed">

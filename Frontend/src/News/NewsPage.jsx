@@ -98,7 +98,7 @@ const ConcertsPage = () => {
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <div className="mb-10 md:mb-16">
           <div className="flex justify-center items-center gap-4 mb-6">
-            <h1 className="text-4xl font-bold text-purple-400 text-center">
+            <h1 className="title-font text-4xl font-bold text-purple-400 text-center">
               Concerts in {selectedCity}
             </h1>
             <button
@@ -177,7 +177,7 @@ const ConcertsPage = () => {
                   className="h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent flex flex-col justify-end p-8">
-                  <h3 className="text-purple-400 text-2xl font-bold mb-2">
+                  <h3 className="title-font text-purple-400 text-2xl font-bold mb-2">
                     {event.title}
                   </h3>
                   <p className="text-gray-light mb-4">
@@ -230,7 +230,7 @@ const ConcertsPage = () => {
                   {formatDate(event.datetime_local)}
                 </span>
 
-                <h2 className="text-xl font-bold text-purple-400">
+                <h2 className="title-font text-xl font-bold text-purple-400">
                   <a
                     href={event.url}
                     target="_blank"

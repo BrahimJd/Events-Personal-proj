@@ -5,7 +5,7 @@ function Homepage() {
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-background text-foreground">
       <div className="flex flex-col justify-center lg:w-1/2 p-8">
-        <h1 className="text-4xl font-semibold text-purple-400 mb-4 tracking-tight">
+        <h1 className="title-font text-4xl font-semibold text-purple-400 mb-4 tracking-tight">
           Celebrate, Connect and Create Your Events with Eventify
         </h1>
         <p className="text-gray-light mb-8 leading-relaxed">
